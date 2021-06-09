@@ -8,7 +8,7 @@ const Transaction = require('./models/transaction');
 const dotenv = require('dotenv');
 const port = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("MONGO CONNECTION OPEN!!!")
     })
@@ -20,35 +20,36 @@ mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useU
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 mongoose.set('useFindAndModify', false);
 app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render('index');
 });
 
 app.get("/view", async (req, res) => {
     const users = await User.find({})
-    res.render("view", { users });
+    res.render('view', { users });
 });
 app.get("/history", async (req, res) => {
     const transactions = await Transaction.find({});
-    res.render("history", { transactions });
+    res.render('history', { transactions });
 });
 app.get("/view/:id", async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
     const users = await User.find({})
-    res.render("transfer", { user, users });
+    res.render('transfer', { user, users });
 });
 
 app.get("/view/:id1/:id2", async (req, res) => {
     const { id1, id2 } = req.params;
     const fromUser = await User.findById(id1);
     const toUser = await User.findById(id2);
-    res.render("form", { fromUser, toUser });
+    res.render('form', { fromUser, toUser });
 });
 
 app.put("/view/:id1/:id2", async (req, res) => {

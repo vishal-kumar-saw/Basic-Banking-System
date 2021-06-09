@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
-    fromName : {
-        type : String,
+    fromName: {
+        type: String,
         required: true
     },
-    toName : {
-        type : String,
+    toName: {
+        type: String,
         required: true
     },
-    transfer : {
-        type : Number,
+    transfer: {
+        type: Number,
         required: true
     }
 })

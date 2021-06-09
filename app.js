@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const User = require('./models/user');
 const Transaction = require('./models/transaction');
+const port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://localhost:27017/', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -75,7 +76,6 @@ app.get("/history", async (req, res) => {
     const transactions = await Transaction.find({});
     res.render("history", { transactions });
 });
-
-app.listen(3000 || process.env.PORT, process.env.IP, () => {
+app.listen(port, () => {
     console.log("SERVER STARTED !");
 });

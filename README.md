@@ -5,15 +5,18 @@ Note that there is no authentication in this website.
 
 # Technologies used
 
-Frontend - HTML, CSS, BOOTSTRAP, JavaScript
-Backend - MongoDB, NodeJs
+### Frontend - HTML, CSS, BOOTSTRAP, JavaScript
+### Backend - MongoDB, NodeJs
 
 # Screenshots
 
+## Home Page
 ![Home Page](/public/imgs/home.png)
 
-![Customer List](/public/imgs/customers.png)
+## Customers List
 
+![Customer List](/public/imgs/customers.png)
+## Transactions Page
 ![Transaction History Page](/public/imgs/history.png)
 
 

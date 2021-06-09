@@ -2,6 +2,7 @@
 const { concatSeries } = require('async');
 const express = require('express');
 const app = express();
+const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const User = require('./models/user');
@@ -19,6 +20,7 @@ mongoose.connect('mongodb://localhost:27017/', { useNewUrlParser: true, useUnifi
 
 mongoose.set('useFindAndModify', false);
 app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
@@ -31,7 +33,10 @@ app.get("/view", async (req, res) => {
     const users = await User.find({})
     res.render("view", { users });
 });
-
+app.get("/history", async (req, res) => {
+    const transactions = await Transaction.find({});
+    res.render("history", { transactions });
+});
 app.get("/view/:id", async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
@@ -72,10 +77,7 @@ app.put("/view/:id1/:id2", async (req, res) => {
     }
 });
 
-app.get("/history", async (req, res) => {
-    const transactions = await Transaction.find({});
-    res.render("history", { transactions });
-});
+
 app.listen(port, () => {
     console.log("SERVER STARTED !");
 });

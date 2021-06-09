@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('./user');
 
-//. DB - test //
-//. COLLECTION - users //
-
 mongoose.connect('mongodb://localhost:27017/', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("MONGO CONNECTION OPEN!!!")
@@ -12,8 +9,6 @@ mongoose.connect('mongodb://localhost:27017/', { useNewUrlParser: true, useUnifi
         console.log("OH NO MONGO CONNECTION ERROR!!!!")
         console.log(err)
     })
-
-
 
 const seedUsers = [
     {

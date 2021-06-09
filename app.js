@@ -8,19 +8,23 @@ const Transaction = require('./models/transaction');
 const dotenv = require('dotenv');
 const port = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://localhost:27017/', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log("MONGO CONNECTION OPEN!!!")
-    })
-    .catch(err => {
-        console.log("OH NO MONGO CONNECTION ERROR!!!!")
-        console.log(err)
-    })
+mongoose.connect('mongodb://localhost:27017/',
+    {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+    });
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
 
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 mongoose.set('useFindAndModify', false);
 app.use(express.static(path.join(__dirname, "/public")));
@@ -34,10 +38,12 @@ app.get("/view", async (req, res) => {
     const users = await User.find({})
     res.render('view', { users });
 });
+
 app.get("/history", async (req, res) => {
     const transactions = await Transaction.find({});
     res.render('history', { transactions });
 });
+
 app.get("/view/:id", async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
@@ -71,7 +77,7 @@ app.put("/view/:id1/:id2", async (req, res) => {
         newTransaction.transfer = credit;
         await newTransaction.save();
 
-        res.redirect("/view");
+        res.redirect('/view');
     }
     else {
         res.render('error');

@@ -63,9 +63,9 @@ const seedUsers = [
     }
 ]
 
-User.insertMany(seedUsers)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+// User.insertMany(seedUsers)
+//     .then(res => console.log(res))
+//     .catch(err => console.log(err))
 
 // User.deleteMany({}).then(() => {
 //     console.log("Deleted");
